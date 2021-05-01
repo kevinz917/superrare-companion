@@ -1,30 +1,31 @@
 import { combineReducers } from "redux";
 import { produce } from "immer";
+import { ACTIVITY_ACTIONS } from "../../modules/home/redux/activityActions";
 
 const initialTestState = {
   loading: false,
-  testItem: null,
+  posts: [],
 };
 
 // test reducer for demo purposes
-export const testReducer = produce((state, action) => {
+export const activityReducer = produce((state, action) => {
   switch (action.type) {
-    // case TEST_ACTIONS.SET_LOADING_TRUE:
-    //   state.loading = true;
-    //   break;
-    // case TEST_ACTIONS.SET_LOADING_FALSE:
-    //   state.loading = false;
-    //   break;
-    // case TEST_ACTIONS.FETCH_MOCK_ITEM_SUCCESS:
-    //   state.testItem = action.payload;
-    //   break;
+    case ACTIVITY_ACTIONS.SET_LOADING_TRUE:
+      state.loading = true;
+      break;
+    case ACTIVITY_ACTIONS.SET_LOADING_FALSE:
+      state.loading = false;
+      break;
+    case ACTIVITY_ACTIONS.FETCH_ACTIVITY_SUCCESS:
+      state.posts = action.payload.item;
+      break;
     default:
       break;
   }
 }, initialTestState);
 
-const MasterReducer = combineReducers({
-  test: testReducer,
+const rootReducer = combineReducers({
+  activity: activityReducer,
 });
 
-export default MasterReducer;
+export default rootReducer;

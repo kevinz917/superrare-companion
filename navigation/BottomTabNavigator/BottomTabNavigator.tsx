@@ -4,7 +4,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import Colors from "../../constants/Colors";
 import useColorScheme from "../../hooks/useColorScheme";
-import Activity from "../../screens/Activity";
 import TabTwoScreen from "../../screens/TabTwoScreen";
 import {
   BottomTabParamList,
@@ -17,6 +16,7 @@ import {
   TabBarIcon,
   TabBarText,
 } from "./BottomTabNavigatorComponents";
+import Activity from "../../modules/home/Activity";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 

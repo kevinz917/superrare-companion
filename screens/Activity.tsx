@@ -14,7 +14,6 @@ import RenderIf from "../common/components/RenderIf/RenderIf";
 const styles = StyleSheet.create({
   pageContainer: {
     width: "100%",
-    // padding: 16,
   },
   title: {
     fontSize: 20,

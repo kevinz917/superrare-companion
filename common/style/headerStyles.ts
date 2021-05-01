@@ -3,6 +3,6 @@ import { StyleSheet } from "react-native";
 export const headerStyles = StyleSheet.create({
   defaultHeader: {
     borderBottomColor: "black",
-    borderBottomWidth: 1,
+    borderBottomWidth: 1.5,
   },
 });

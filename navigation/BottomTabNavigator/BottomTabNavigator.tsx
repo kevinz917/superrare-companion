@@ -1,13 +1,22 @@
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
-import Activity from "../screens/Activity";
-import TabTwoScreen from "../screens/TabTwoScreen";
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from "../types";
-import { headerStyles } from "../common/style/headerStyles";
+import Colors from "../../constants/Colors";
+import useColorScheme from "../../hooks/useColorScheme";
+import Activity from "../../screens/Activity";
+import TabTwoScreen from "../../screens/TabTwoScreen";
+import {
+  BottomTabParamList,
+  TabOneParamList,
+  TabTwoParamList,
+} from "../../types";
+import { headerStyles } from "../../common/style/headerStyles";
+import {
+  bottomTabNavigatorStyle,
+  TabBarIcon,
+  TabBarText,
+} from "./BottomTabNavigatorComponents";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -17,14 +26,20 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Activity"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].tint,
+        style: bottomTabNavigatorStyle.container,
+      }}
     >
       <BottomTab.Screen
         name="Activity"
         component={ActivityNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="globe" color={"black"} />
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="globe" focused={focused} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <TabBarText label="Activity" focused={focused} />
           ),
         }}
       />
@@ -32,20 +47,16 @@ export default function BottomTabNavigator() {
         name="TabTwo"
         component={TabTwoNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name="user" focused={focused} />
+          ),
+          tabBarLabel: ({ focused }) => (
+            <TabBarText label="user" focused={focused} />
+          ),
         }}
       />
     </BottomTab.Navigator>
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Feather>["name"];
-  color: string;
-}) {
-  return <Feather size={25} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:

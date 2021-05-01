@@ -20,18 +20,20 @@ export const postStyle = StyleSheet.create({
     borderRadius: 50,
     overflow: "hidden",
     marginRight: 12,
+    resizeMode: "contain",
   },
   mainImageContainer: {
     width: "100%",
-    height: 400,
+    height: 300,
     marginBottom: 20,
+    resizeMode: "contain",
   },
   postBottomContainer: {
     display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
-    paddingLeft: 12,
-    paddingRight: 12,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
 });

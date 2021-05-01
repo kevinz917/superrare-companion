@@ -2,8 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const postStyle = StyleSheet.create({
   postOverallContainer: {
-    // marginTop: 20,
     marginBottom: 30,
+  },
+  headerTextContainer: {
+    display: "flex",
+    flexDirection: "column",
   },
   postHeaderContainer: {
     display: "flex",

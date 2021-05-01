@@ -9,6 +9,7 @@ import {
 import { fetchPosts } from "../common/api/postApi";
 import { View } from "../components/Themed";
 import Post from "../modules/home/post/post";
+import RenderIf from "../common/components/RenderIf/RenderIf";
 
 const styles = StyleSheet.create({
   pageContainer: {
@@ -28,10 +29,14 @@ const styles = StyleSheet.create({
 
 export default function TabOneScreen() {
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const onMount = async () => {
-      const fetchedPosts = await fetchPosts(5, 0);
+      setIsLoading(true);
+      const fetchedPosts: any = await fetchPosts(5, 0);
+      setPosts(fetchedPosts);
+      setIsLoading(false);
     };
     onMount();
   }, []);
@@ -40,9 +45,11 @@ export default function TabOneScreen() {
     <View style={styles.pageContainer}>
       <SafeAreaView style={{ width: "100%" }}>
         <ScrollView>
-          <Post />
-          <Post />
-          <Post />
+          <RenderIf value={!isLoading}>
+            {posts.map((post) => (
+              <Post post={post} />
+            ))}
+          </RenderIf>
         </ScrollView>
       </SafeAreaView>
     </View>

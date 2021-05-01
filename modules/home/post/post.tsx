@@ -4,29 +4,33 @@ import { Text, Image } from "react-native";
 import { typography } from "../../../common/style/typography";
 import { postStyle } from "./postStyle";
 
-const Post = () => {
+const Post = (props: any) => {
+  const { post } = props;
+
   return (
     <View style={postStyle.postOverallContainer}>
       <View style={postStyle.postHeaderContainer}>
         <Image
           style={postStyle.profilePictureContainer}
           source={{
-            uri:
-              "https://ipfs.pixura.io/ipfs/QmZSK99hHLJi91HgbooSWjEyQULNX94aWuL11vuvHEvPCz/icon.jpg",
+            uri: post.event.creation.firstOwner.user.avatar,
           }}
         />
-        <Text style={typography.body1}>Post info</Text>
+        <View style={postStyle.headerTextContainer}>
+          <Text style={typography.body1}>{post.artwork.name}</Text>
+          <Text
+            style={typography.caption}
+          >{`By: ${post.artwork.creator.user.username}`}</Text>
+        </View>
       </View>
       <Image
         style={postStyle.mainImageContainer}
         source={{
-          uri:
-            "https://images.unsplash.com/photo-1502759683299-cdcd6974244f?auto=format&fit=crop&w=440&h=220&q=60",
+          uri: post.artwork.image,
         }}
       />
       <View style={postStyle.postBottomContainer}>
         <Text>Like button</Text>
-        <Text style={typography.caption}>By: Author Name</Text>
       </View>
     </View>
   );

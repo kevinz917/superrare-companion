@@ -1,32 +1,50 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-
-export default function TabOneScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
-  );
-}
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+} from "react-native";
+import { fetchPosts } from "../common/api/postApi";
+import { View } from "../components/Themed";
+import Post from "../modules/home/post/post";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  pageContainer: {
+    width: "100%",
+    // padding: 16,
   },
   title: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   separator: {
     marginVertical: 30,
     height: 1,
-    width: '80%',
+    width: "80%",
   },
 });
+
+export default function TabOneScreen() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const onMount = async () => {
+      const fetchedPosts = await fetchPosts(5, 0);
+    };
+    onMount();
+  }, []);
+
+  return (
+    <View style={styles.pageContainer}>
+      <SafeAreaView style={{ width: "100%" }}>
+        <ScrollView>
+          <Post />
+          <Post />
+          <Post />
+        </ScrollView>
+      </SafeAreaView>
+    </View>
+  );
+}

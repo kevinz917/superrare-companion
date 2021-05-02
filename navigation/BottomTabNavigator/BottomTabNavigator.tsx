@@ -17,6 +17,8 @@ import {
   TabBarText,
 } from "./BottomTabNavigatorComponents";
 import Activity from "../../modules/home/Activity";
+import IndividualArtwork from "../../modules/IndividualArtwork/IndividualArtwork";
+import { colors } from "../../common/style/colors";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -61,20 +63,34 @@ export default function BottomTabNavigator() {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const ActivityStackNavigator = createStackNavigator<TabOneParamList>();
 
 function ActivityNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
+    <ActivityStackNavigator.Navigator initialRouteName={"Activity"}>
+      <ActivityStackNavigator.Screen
+        name="Activity"
         component={Activity}
         options={{
           headerTitle: "Activity",
           headerStyle: headerStyles.defaultHeader,
+          headerTintColor: colors.grey600,
+          headerTitleStyle: {
+            fontSize: 16,
+            fontWeight: "500",
+          },
         }}
       />
-    </TabOneStack.Navigator>
+      <ActivityStackNavigator.Screen
+        name="IndividualArtwork"
+        component={IndividualArtwork}
+        options={{
+          headerTitle: "Artwork",
+          headerStyle: headerStyles.defaultHeader,
+          headerTintColor: colors.grey600,
+        }}
+      />
+    </ActivityStackNavigator.Navigator>
   );
 }
 

@@ -8,6 +8,7 @@ interface activityState {
   posts: any;
   filter: any;
   likedArtworks: string[];
+  selectedArtworkId: number;
 }
 
 const activityState: activityState = {
@@ -15,6 +16,7 @@ const activityState: activityState = {
   posts: [],
   filter: ACTIVITY_FILTER_OPTIONS.ALL_AUCTIONS,
   likedArtworks: [],
+  selectedArtworkId: -1,
 };
 
 // test reducer for demo purposes
@@ -51,6 +53,9 @@ export const activityReducer = produce((state, action) => {
       }
       state.likedArtworks = likedArtworksCopy;
 
+      break;
+    case ACTIVITY_ACTIONS.SELECT_ARTWORK_ID:
+      state.selectedArtworkId = action.payload.artworkId;
       break;
 
     default:

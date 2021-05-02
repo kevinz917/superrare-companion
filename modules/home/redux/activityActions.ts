@@ -13,6 +13,8 @@ export const ACTIVITY_ACTIONS = {
   // Like posts
   ADD_LIKE_ARTWORK: "ADD_LIKE_ARTWORK",
   REMOVE_LIKE_ARTWORK: "REMOVE_LIKE_ARTWORK",
+
+  SELECT_ARTWORK_ID: "SELECT_ARTWORK_ID",
 };
 
 export default {
@@ -42,5 +44,10 @@ export default {
   },
   dislikeArtwork(artworkId: any): any {
     return actionCreator(ACTIVITY_ACTIONS.REMOVE_LIKE_ARTWORK, { artworkId });
+  },
+
+  selectArtworkId(artworkId: any): any {
+    console.log(artworkId);
+    return actionCreator(ACTIVITY_ACTIONS.SELECT_ARTWORK_ID, { artworkId });
   },
 };

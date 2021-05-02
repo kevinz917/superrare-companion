@@ -39,7 +39,7 @@ const mapStateToProps = (state: any): mapStateToProps => {
 
 type activityAllProps = mapDispatchProps & mapStateToProps;
 
-const TabOneScreen = (props: activityAllProps) => {
+const ActivityFeed = (props: activityAllProps) => {
   const { loading, posts, fetchMockItem } = props;
 
   useEffect(() => {
@@ -85,4 +85,4 @@ const TabOneScreen = (props: activityAllProps) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabOneScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityFeed);

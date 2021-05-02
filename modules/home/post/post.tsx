@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { View } from "../../../components/Themed";
-import { Text, Image, Animated, Dimensions } from "react-native";
+import { Text, Image, Animated } from "react-native";
 import { typography } from "../../../common/style/typography";
 import { postStyle } from "./postStyle";
 import { StarActive } from "../../../common/icons/Star/StarActive";
@@ -8,7 +8,12 @@ import { StarInactive } from "../../../common/icons/Star/StarInactive";
 import { connect } from "react-redux";
 import RenderIf from "../../../common/components/RenderIf/RenderIf";
 import activityActions from "../redux/activityActions";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import FadeInView from "../../../common/components/FadeInView/FadeInView";
 
 interface postOwnProps {
   post: any; // TODO: DEFINE API TYPE SPECS
@@ -21,12 +26,15 @@ interface postMapStateToPropsProps {
 interface postMapDispatchToPropsProps {
   likeArtwork: (artworkId: string) => void;
   dislikeArtwork: (artworkId: string) => void;
+  selectArtworkId: (artworkId: number) => void;
 }
 
 const postMapDispatchToProps: postMapDispatchToPropsProps = {
   likeArtwork: (artworkId: string) => activityActions.likeArtwork(artworkId),
   dislikeArtwork: (artworkId: string) =>
     activityActions.dislikeArtwork(artworkId),
+  selectArtworkId: (artworkId: number) =>
+    activityActions.selectArtworkId(artworkId),
 };
 
 const postMapStateToProps = (state: any) => {
@@ -35,54 +43,44 @@ const postMapStateToProps = (state: any) => {
   };
 };
 
-const FadeInView = (props: any) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
-
-  React.useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  }, [fadeAnim]);
-
-  return (
-    <Animated.View // Special animatable View
-      style={{
-        ...props.style,
-        opacity: fadeAnim, // Bind opacity to animated value
-      }}
-    >
-      {props.children}
-    </Animated.View>
-  );
-};
-
 type postAllProps = postMapStateToPropsProps &
   postOwnProps &
   postMapDispatchToPropsProps;
 
 const Post = (props: postAllProps) => {
-  const { post, likedPosts, likeArtwork, dislikeArtwork } = props;
+  const {
+    post,
+    likedPosts,
+    likeArtwork,
+    dislikeArtwork,
+    selectArtworkId,
+  } = props;
+  const navigation = useNavigation();
+
+  const navigateToArtwork = () => {
+    selectArtworkId(post.artwork.id);
+    navigation.navigate("IndividualArtwork");
+  };
 
   return (
-    <FadeInView>
+    <FadeInView duration={500}>
       <View style={postStyle.postOverallContainer}>
-        <View style={postStyle.postHeaderContainer}>
-          <Image
-            style={postStyle.profilePictureContainer}
-            source={{
-              uri: post.event.creation.firstOwner.user.avatar,
-            }}
-          />
-          <View style={postStyle.headerTextContainer}>
-            <Text style={typography.body1}>{post.artwork.name}</Text>
-            <Text
-              style={typography.caption}
-            >{`By: ${post.artwork.creator.user.username}`}</Text>
+        <TouchableOpacity onPress={() => navigateToArtwork()}>
+          <View style={postStyle.postHeaderContainer}>
+            <Image
+              style={postStyle.profilePictureContainer}
+              source={{
+                uri: post.event.creation.firstOwner.user.avatar,
+              }}
+            />
+            <View style={postStyle.headerTextContainer}>
+              <Text style={typography.body1}>{post.artwork.name}</Text>
+              <Text
+                style={typography.caption}
+              >{`By: ${post.artwork.creator.user.username}`}</Text>
+            </View>
           </View>
-        </View>
-
+        </TouchableOpacity>
         <Image
           style={postStyle.mainImageContainer}
           source={{

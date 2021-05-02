@@ -14,7 +14,8 @@ export type BottomTabParamList = {
 };
 
 export type TabOneParamList = {
-  TabOneScreen: undefined;
+  Activity: undefined;
+  IndividualArtwork: undefined;
 };
 
 export type TabTwoParamList = {

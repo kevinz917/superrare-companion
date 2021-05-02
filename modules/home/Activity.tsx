@@ -5,6 +5,7 @@ import {
   ScrollView,
   Image,
   RefreshControl,
+  FlatList,
 } from "react-native";
 import { Fragment } from "react";
 import { connect } from "react-redux";
@@ -18,33 +19,37 @@ import { SUPERRARE_MAIN_LOGO } from "../../common/constants/brand";
 import FloatingFilterContainer from "./FloatingFilterContainer.tsx/FloatingFilterContainer";
 
 interface mapDispatchProps {
-  fetchMockItem: () => void;
+  fetchActivityItems: () => void;
 }
 
 interface mapStateToProps {
   loading: boolean;
   posts: any;
+  lastFetchedArtworkIndex: number;
 }
 
-const mapDispatchToProps: mapDispatchProps = {
-  fetchMockItem: () => activityActions.fetchActivity(),
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchActivityItems: () => dispatch(activityActions.fetchActivity(0)),
+  };
 };
 
 const mapStateToProps = (state: any): mapStateToProps => {
   return {
     loading: state.activity.loading,
     posts: state.activity.posts,
+    lastFetchedArtworkIndex: state.activity.lastFetchedArtworkIndex,
   };
 };
 
 type activityAllProps = mapDispatchProps & mapStateToProps;
 
 const ActivityFeed = (props: activityAllProps) => {
-  const { loading, posts, fetchMockItem } = props;
+  const { loading, posts, fetchActivityItems } = props;
 
   useEffect(() => {
     const onMount = async () => {
-      fetchMockItem();
+      fetchActivityItems();
     };
     onMount();
   }, []);
@@ -58,14 +63,17 @@ const ActivityFeed = (props: activityAllProps) => {
               refreshControl={
                 <RefreshControl
                   refreshing={loading}
-                  onRefresh={fetchMockItem}
+                  onRefresh={fetchActivityItems}
                 />
               }
-            >
-              {posts.map((post: any) => (
-                <Post post={post} />
-              ))}
-            </ScrollView>
+            ></ScrollView>
+            <FlatList
+              data={posts}
+              renderItem={({ item }) => <Post post={item} />}
+              initialNumToRender={5}
+              onEndReachedThreshold={0.2}
+              onEndReached={() => fetchActivityItems()}
+            />
           </SafeAreaView>
           <FloatingFilterContainer />
         </View>

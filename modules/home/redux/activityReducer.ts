@@ -9,6 +9,7 @@ interface activityState {
   filter: any;
   likedArtworks: string[];
   selectedArtworkId: number;
+  lastFetchedArtworkIndex: number;
 }
 
 const activityState: activityState = {
@@ -17,6 +18,7 @@ const activityState: activityState = {
   filter: ACTIVITY_FILTER_OPTIONS.ALL_AUCTIONS,
   likedArtworks: [],
   selectedArtworkId: -1,
+  lastFetchedArtworkIndex: 0,
 };
 
 // test reducer for demo purposes
@@ -29,8 +31,9 @@ export const activityReducer = produce((state, action) => {
       state.loading = false;
       break;
     case ACTIVITY_ACTIONS.FETCH_ACTIVITY_SUCCESS:
-      state.posts = action.payload.item;
+      state.posts = state.posts.concat(action.payload.item);
       break;
+
     case ACTIVITY_ACTIONS.SET_FILER_SELECTION:
       state.filter = action.payload.value;
       break;
@@ -52,10 +55,14 @@ export const activityReducer = produce((state, action) => {
         }
       }
       state.likedArtworks = likedArtworksCopy;
-
       break;
+
     case ACTIVITY_ACTIONS.SELECT_ARTWORK_ID:
       state.selectedArtworkId = action.payload.artworkId;
+      break;
+
+    case ACTIVITY_ACTIONS.SET_LAST_FETCHED_ARTWORK_INDEX:
+      state.lastFetchedArtworkIndex = action.payload.index;
       break;
 
     default:

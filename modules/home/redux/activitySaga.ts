@@ -12,11 +12,22 @@ const createSingleArtworkPromise = (assetId: number) => {
 // Mock generator function
 function* fetchMockItems(): Generator {
   try {
-    yield put(activityActions.setLoadingTrue());
+    // get last indexedItem
+    const state: any = yield select();
+    const lastFetchedArtworkIndex = state.activity.lastFetchedArtworkIndex;
+    console.log(lastFetchedArtworkIndex);
+
+    if (lastFetchedArtworkIndex !== 0) {
+      yield put(
+        activityActions.setLastFetchedArtworkId(lastFetchedArtworkIndex + 10)
+      );
+    }
+
+    // yield put(activityActions.setLoadingTrue());
     // mock fetch api item
     const fetchedRawPosts: any = yield call(
       axios.get,
-      `https://superrare.co/sr-json/v0/nfts/events?limit=7&offset=0&categories=artwork&event_types=creation`
+      `https://superrare.co/sr-json/v0/nfts/events?limit=10&offset=${lastFetchedArtworkIndex}&categories=artwork&event_types=creation`
     );
 
     // return array
@@ -40,10 +51,8 @@ function* fetchMockItems(): Generator {
       }
     }
 
-    console.log(postList);
-
     yield put(activityActions.fetchActivitySuccess(postList));
-    yield put(activityActions.setLoadingFalse());
+    // yield put(activityActions.setLoadingFalse());
   } catch (e) {}
 }
 

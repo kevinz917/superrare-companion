@@ -15,6 +15,8 @@ export const ACTIVITY_ACTIONS = {
   REMOVE_LIKE_ARTWORK: "REMOVE_LIKE_ARTWORK",
 
   SELECT_ARTWORK_ID: "SELECT_ARTWORK_ID",
+
+  SET_LAST_FETCHED_ARTWORK_INDEX: "SET_LAST_FETCHED_ARTWORK_INDEX",
 };
 
 export default {
@@ -25,8 +27,8 @@ export default {
     return actionCreator(ACTIVITY_ACTIONS.SET_LOADING_FALSE);
   },
 
-  fetchActivity(): any {
-    return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_START);
+  fetchActivity(index: number): any {
+    return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_START, { index });
   },
   fetchActivitySuccess(item: any): any {
     return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_SUCCESS, { item });
@@ -47,7 +49,12 @@ export default {
   },
 
   selectArtworkId(artworkId: any): any {
-    console.log(artworkId);
     return actionCreator(ACTIVITY_ACTIONS.SELECT_ARTWORK_ID, { artworkId });
+  },
+
+  setLastFetchedArtworkId(index: number): any {
+    return actionCreator(ACTIVITY_ACTIONS.SET_LAST_FETCHED_ARTWORK_INDEX, {
+      index,
+    });
   },
 };

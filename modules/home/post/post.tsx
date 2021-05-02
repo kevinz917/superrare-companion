@@ -63,49 +63,47 @@ const Post = (props: postAllProps) => {
   };
 
   return (
-    <FadeInView duration={500}>
-      <View style={postStyle.postOverallContainer}>
-        <TouchableOpacity onPress={() => navigateToArtwork()}>
-          <View style={postStyle.postHeaderContainer}>
-            <Image
-              style={postStyle.profilePictureContainer}
-              source={{
-                uri: post.event.creation.firstOwner.user.avatar,
-              }}
-            />
-            <View style={postStyle.headerTextContainer}>
-              <Text style={typography.body1}>{post.artwork.name}</Text>
-              <Text
-                style={typography.caption}
-              >{`By: ${post.artwork.creator.user.username}`}</Text>
-            </View>
+    <View style={postStyle.postOverallContainer}>
+      <TouchableOpacity onPress={() => navigateToArtwork()}>
+        <View style={postStyle.postHeaderContainer}>
+          <Image
+            style={postStyle.profilePictureContainer}
+            source={{
+              uri: post.event.creation.firstOwner.user.avatar,
+            }}
+          />
+          <View style={postStyle.headerTextContainer}>
+            <Text style={typography.body1}>{post.artwork.name}</Text>
+            <Text
+              style={typography.caption}
+            >{`By: ${post.artwork.creator.user.username}`}</Text>
           </View>
-        </TouchableOpacity>
-        <Image
-          style={postStyle.mainImageContainer}
-          source={{
-            uri: post.artwork.image,
-          }}
-        />
-        <View style={postStyle.postBottomContainer}>
-          <Text>{`${post.artwork.likeCount} Likes`}</Text>
-          <RenderIf value={!likedPosts.includes(post.artwork.id)}>
-            <TouchableWithoutFeedback
-              onPress={() => likeArtwork(post.artwork.id)}
-            >
-              <StarInactive width={30} height={30} />
-            </TouchableWithoutFeedback>
-          </RenderIf>
-          <RenderIf value={likedPosts.includes(post.artwork.id)}>
-            <TouchableWithoutFeedback
-              onPress={() => dislikeArtwork(post.artwork.id)}
-            >
-              <StarActive width={30} height={30} />
-            </TouchableWithoutFeedback>
-          </RenderIf>
         </View>
+      </TouchableOpacity>
+      <Image
+        style={postStyle.mainImageContainer}
+        source={{
+          uri: post.artwork.image,
+        }}
+      />
+      <View style={postStyle.postBottomContainer}>
+        <Text>{`${post.artwork.likeCount} Likes`}</Text>
+        <RenderIf value={!likedPosts.includes(post.artwork.id)}>
+          <TouchableWithoutFeedback
+            onPress={() => likeArtwork(post.artwork.id)}
+          >
+            <StarInactive width={30} height={30} />
+          </TouchableWithoutFeedback>
+        </RenderIf>
+        <RenderIf value={likedPosts.includes(post.artwork.id)}>
+          <TouchableWithoutFeedback
+            onPress={() => dislikeArtwork(post.artwork.id)}
+          >
+            <StarActive width={30} height={30} />
+          </TouchableWithoutFeedback>
+        </RenderIf>
       </View>
-    </FadeInView>
+    </View>
   );
 };
 

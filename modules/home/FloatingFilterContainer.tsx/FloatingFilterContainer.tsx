@@ -10,7 +10,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 
 const FloatingFilterContainer = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <View style={[FloatingContainerStyles.container, shadows.shadow300]}>

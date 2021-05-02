@@ -3,10 +3,18 @@ import { ACTIVITY_ACTIONS } from "./activityActions";
 import { combineReducers } from "redux";
 import { produce } from "immer";
 
-const initialTestState = {
+interface activityState {
+  loading: boolean;
+  posts: any;
+  filter: any;
+  likedArtworks: string[];
+}
+
+const activityState: activityState = {
   loading: false,
   posts: [],
   filter: ACTIVITY_FILTER_OPTIONS.ALL_AUCTIONS,
+  likedArtworks: [],
 };
 
 // test reducer for demo purposes
@@ -24,7 +32,28 @@ export const activityReducer = produce((state, action) => {
     case ACTIVITY_ACTIONS.SET_FILER_SELECTION:
       state.filter = action.payload.value;
       break;
+    case ACTIVITY_ACTIONS.ADD_LIKE_ARTWORK:
+      const id = action.payload.artworkId;
+      if (!state.likedArtworks.includes(id)) {
+        state.likedArtworks.push(id);
+      }
+      break;
+
+    case ACTIVITY_ACTIONS.REMOVE_LIKE_ARTWORK:
+      const artworkId = action.payload.artworkId;
+      const likedArtworksCopy = [...state.likedArtworks];
+
+      if (state.likedArtworks.includes(artworkId)) {
+        let idx = state.likedArtworks.indexOf(artworkId);
+        if (idx > -1) {
+          likedArtworksCopy.splice(idx, 1);
+        }
+      }
+      state.likedArtworks = likedArtworksCopy;
+
+      break;
+
     default:
       break;
   }
-}, initialTestState);
+}, activityState);

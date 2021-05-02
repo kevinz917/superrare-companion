@@ -10,6 +10,7 @@ import activityActions from "../redux/activityActions";
 import { connect } from "react-redux";
 import Divider from "../../../common/components/Divider/Divider";
 import RenderIf from "../../../common/components/RenderIf/RenderIf";
+import { Fragment } from "react";
 
 interface floatingFiltersOwnProps {
   onFilterClose: (active: boolean) => void;
@@ -19,16 +20,27 @@ interface floatingFilterDispatchProps {
   setFilterType: (filterType: any) => void;
 }
 
+interface floatingFilterMapStateToPropsProps {
+  selectedFilter: string;
+}
+
 const floatingFiltersMapDispatchToProps: floatingFilterDispatchProps = {
   setFilterType: (filterType: any) =>
     activityActions.setFilterSelection(filterType),
 };
 
+const floatingFiltersMapStateToProps = (state: any) => {
+  return {
+    selectedFilter: state.activity.filter,
+  };
+};
+
 type floatingFilterAllProps = floatingFiltersOwnProps &
-  floatingFilterDispatchProps;
+  floatingFilterDispatchProps &
+  floatingFilterMapStateToPropsProps;
 
 const FloatingFilters = (props: floatingFilterAllProps) => {
-  const { onFilterClose, setFilterType } = props;
+  const { onFilterClose, setFilterType, selectedFilter } = props;
 
   const onFilterOptionClick = (filterType: any) => {
     onFilterClose(true);
@@ -39,26 +51,33 @@ const FloatingFilters = (props: floatingFilterAllProps) => {
 
   return (
     <View
-      style={[FloatingFiltersStyle.floatingFiltersContainer, shadows.shadow300]}
+      style={[shadows.shadow300, FloatingFiltersStyle.floatingFiltersContainer]}
     >
       {activityfilterOptionsKeys.map((key, idx) => (
-        <View>
+        <Fragment key={`${key} ${idx}`}>
           <TouchableOpacity
             style={FloatingFiltersStyle.filterRowButton}
             onPress={() => onFilterOptionClick(key)}
           >
-            <Text style={typography.body1}>{ACTIVITY_FILTER_OPTIONS[key]}</Text>
+            <Text
+              style={[
+                typography.body1,
+                selectedFilter === key && typography.medium,
+              ]}
+            >
+              {ACTIVITY_FILTER_OPTIONS[key]}
+            </Text>
           </TouchableOpacity>
           <RenderIf value={idx !== activityfilterOptionsKeys.length - 1}>
             <Divider />
           </RenderIf>
-        </View>
+        </Fragment>
       ))}
     </View>
   );
 };
 
 export default connect(
-  null,
+  floatingFiltersMapStateToProps,
   floatingFiltersMapDispatchToProps
 )(FloatingFilters);

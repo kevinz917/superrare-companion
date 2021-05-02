@@ -24,9 +24,9 @@ export const postStyle = StyleSheet.create({
   },
   mainImageContainer: {
     width: "100%",
-    height: 300,
+    height: 500,
     marginBottom: 20,
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   postBottomContainer: {
     display: "flex",

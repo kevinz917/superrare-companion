@@ -8,7 +8,6 @@ export const FloatingFiltersStyle = StyleSheet.create({
     bottom: 75,
     right: 0,
     borderRadius: 12,
-    overflow: "hidden",
   },
 
   filterRowButton: {

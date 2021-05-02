@@ -9,6 +9,10 @@ export const ACTIVITY_ACTIONS = {
 
   // activity type filter
   SET_FILER_SELECTION: "SET_FILTER_SELECTION",
+
+  // Like posts
+  ADD_LIKE_ARTWORK: "ADD_LIKE_ARTWORK",
+  REMOVE_LIKE_ARTWORK: "REMOVE_LIKE_ARTWORK",
 };
 
 export default {
@@ -30,5 +34,13 @@ export default {
     return actionCreator(ACTIVITY_ACTIONS.SET_FILER_SELECTION, {
       value: filter,
     });
+  },
+
+  // LIKE ARTWORK
+  likeArtwork(artworkId: any): any {
+    return actionCreator(ACTIVITY_ACTIONS.ADD_LIKE_ARTWORK, { artworkId });
+  },
+  dislikeArtwork(artworkId: any): any {
+    return actionCreator(ACTIVITY_ACTIONS.REMOVE_LIKE_ARTWORK, { artworkId });
   },
 };

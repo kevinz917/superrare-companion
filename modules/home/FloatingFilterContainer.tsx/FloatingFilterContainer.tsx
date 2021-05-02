@@ -7,6 +7,7 @@ import RenderIf from "../../../common/components/RenderIf/RenderIf";
 import FloatingFilters from "../FloatingFilters/FloatingFilters";
 import { shadows } from "../../../common/style/shadows";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Feather } from "@expo/vector-icons";
 
 const FloatingFilterContainer = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,7 @@ const FloatingFilterContainer = () => {
         <FloatingFilters onFilterClose={setIsOpen} />
       </RenderIf>
       <TouchableWithoutFeedback onPress={() => setIsOpen(!isOpen)}>
-        <Text style={typography.body1}>Filter</Text>
+        <Feather size={25} name={"filter"} style={{ marginBottom: -3 }} />
       </TouchableWithoutFeedback>
     </View>
   );

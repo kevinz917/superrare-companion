@@ -8,6 +8,8 @@ import { ACTIVITY_FILTER_OPTIONS } from "../constants/activityFilterOptions";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import activityActions from "../redux/activityActions";
 import { connect } from "react-redux";
+import Divider from "../../../common/components/Divider/Divider";
+import RenderIf from "../../../common/components/RenderIf/RenderIf";
 
 interface floatingFiltersOwnProps {
   onFilterClose: (active: boolean) => void;
@@ -33,17 +35,24 @@ const FloatingFilters = (props: floatingFilterAllProps) => {
     setFilterType(filterType);
   };
 
+  const activityfilterOptionsKeys = Object.keys(ACTIVITY_FILTER_OPTIONS);
+
   return (
     <View
       style={[FloatingFiltersStyle.floatingFiltersContainer, shadows.shadow300]}
     >
-      {Object.keys(ACTIVITY_FILTER_OPTIONS).map((key) => (
-        <TouchableOpacity
-          style={FloatingFiltersStyle.filterRowButton}
-          onPress={() => onFilterOptionClick(key)}
-        >
-          <Text style={typography.body1}>{ACTIVITY_FILTER_OPTIONS[key]}</Text>
-        </TouchableOpacity>
+      {activityfilterOptionsKeys.map((key, idx) => (
+        <View>
+          <TouchableOpacity
+            style={FloatingFiltersStyle.filterRowButton}
+            onPress={() => onFilterOptionClick(key)}
+          >
+            <Text style={typography.body1}>{ACTIVITY_FILTER_OPTIONS[key]}</Text>
+          </TouchableOpacity>
+          <RenderIf value={idx !== activityfilterOptionsKeys.length - 1}>
+            <Divider />
+          </RenderIf>
+        </View>
       ))}
     </View>
   );

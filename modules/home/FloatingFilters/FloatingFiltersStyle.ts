@@ -8,6 +8,7 @@ export const FloatingFiltersStyle = StyleSheet.create({
     bottom: 75,
     right: 0,
     borderRadius: 12,
+    overflow: "hidden",
   },
 
   filterRowButton: {
@@ -17,7 +18,5 @@ export const FloatingFiltersStyle = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grey200,
   },
 });

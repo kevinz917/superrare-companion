@@ -17,12 +17,15 @@ import activityActions from "./redux/activityActions";
 import { activityStyles, loadingStyle } from "./ActivityStyle";
 import { SUPERRARE_MAIN_LOGO } from "../../common/constants/brand";
 import FloatingFilterContainer from "./FloatingFilterContainer.tsx/FloatingFilterContainer";
+import LoadingSpinner from "../../common/components/LoadingSpinner/LoadingSpinner";
 
 interface mapDispatchProps {
-  fetchActivityItems: () => void;
+  setInitialLoading: (state: boolean) => void;
+  fetchActivityItems: (type: string) => void;
 }
 
 interface mapStateToProps {
+  initialLoading: boolean;
   loading: boolean;
   posts: any;
   lastFetchedArtworkIndex: number;
@@ -30,12 +33,16 @@ interface mapStateToProps {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchActivityItems: () => dispatch(activityActions.fetchActivity(0)),
+    setInitialLoading: (state: boolean) =>
+      dispatch(activityActions.setInitialLoading(state)),
+    fetchActivityItems: (type: string) =>
+      dispatch(activityActions.fetchActivity(type)),
   };
 };
 
 const mapStateToProps = (state: any): mapStateToProps => {
   return {
+    initialLoading: state.activity.initialLoading,
     loading: state.activity.loading,
     posts: state.activity.posts,
     lastFetchedArtworkIndex: state.activity.lastFetchedArtworkIndex,
@@ -45,40 +52,34 @@ const mapStateToProps = (state: any): mapStateToProps => {
 type activityAllProps = mapDispatchProps & mapStateToProps;
 
 const ActivityFeed = (props: activityAllProps) => {
-  const { loading, posts, fetchActivityItems } = props;
+  const { loading, initialLoading, posts, fetchActivityItems } = props;
 
   useEffect(() => {
     const onMount = async () => {
-      fetchActivityItems();
+      fetchActivityItems("initial");
     };
     onMount();
   }, []);
 
   return (
     <Fragment>
-      <RenderIf value={!loading}>
+      <RenderIf value={!initialLoading}>
         <View style={activityStyles.pageContainer}>
-          <SafeAreaView>
-            <ScrollView
-              refreshControl={
-                <RefreshControl
-                  refreshing={loading}
-                  onRefresh={fetchActivityItems}
-                />
-              }
-            ></ScrollView>
-            <FlatList
-              data={posts}
-              renderItem={({ item }) => <Post post={item} />}
-              initialNumToRender={5}
-              onEndReachedThreshold={0.2}
-              onEndReached={() => fetchActivityItems()}
-            />
-          </SafeAreaView>
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => <Post post={item} />}
+            initialNumToRender={2}
+            onEndReachedThreshold={0.2}
+            onEndReached={() => fetchActivityItems("loadMore")}
+            ListFooterComponent={<LoadingSpinner />}
+            refreshing={loading}
+            onRefresh={() => fetchActivityItems("refresh")}
+          />
           <FloatingFilterContainer />
         </View>
       </RenderIf>
-      <RenderIf value={loading}>
+
+      <RenderIf value={initialLoading}>
         <View style={loadingStyle.container}>
           <Image
             style={loadingStyle.hero}
@@ -86,7 +87,9 @@ const ActivityFeed = (props: activityAllProps) => {
               uri: SUPERRARE_MAIN_LOGO,
             }}
           />
-          <Text style={typography.body1}>GETTING ART READY ...</Text>
+          <Text style={[typography.body1, typography.italic]}>
+            GETTING ART READY ...
+          </Text>
         </View>
       </RenderIf>
     </Fragment>

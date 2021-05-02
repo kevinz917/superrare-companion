@@ -21,4 +21,7 @@ export const typography = StyleSheet.create({
   medium: {
     fontWeight: "600",
   },
+  italic: {
+    fontStyle: "italic",
+  },
 });

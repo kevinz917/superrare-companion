@@ -1,11 +1,14 @@
 import actionCreator from "../../../redux/actionCreator";
 
 export const ACTIVITY_ACTIONS = {
+  SET_INITIAL_LOADING: "SET_INITIAL_LOADING",
+
   SET_LOADING_TRUE: "SET_LOADING_TRUE",
   SET_LOADING_FALSE: "SET_LOADING_FALSE",
 
   FETCH_ACTIVITY_START: "FETCH_ACTIVITY_START",
   FETCH_ACTIVITY_SUCCESS: "FETCH_ACTIVITY_SUCCESS",
+  CLEAR_ALL_FETCHED_ARTWORKS: "CLEAR_ALL_FETCHED_ARTWORKS",
 
   // activity type filter
   SET_FILER_SELECTION: "SET_FILTER_SELECTION",
@@ -20,6 +23,10 @@ export const ACTIVITY_ACTIONS = {
 };
 
 export default {
+  setInitialLoading(status: boolean): any {
+    return actionCreator(ACTIVITY_ACTIONS.SET_INITIAL_LOADING, { status });
+  },
+
   setLoadingTrue(): any {
     return actionCreator(ACTIVITY_ACTIONS.SET_LOADING_TRUE);
   },
@@ -27,11 +34,18 @@ export default {
     return actionCreator(ACTIVITY_ACTIONS.SET_LOADING_FALSE);
   },
 
-  fetchActivity(index: number): any {
-    return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_START, { index });
+  fetchActivity(type: string): any {
+    return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_START, {
+      type,
+    });
   },
   fetchActivitySuccess(item: any): any {
-    return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_SUCCESS, { item });
+    return actionCreator(ACTIVITY_ACTIONS.FETCH_ACTIVITY_SUCCESS, {
+      item,
+    });
+  },
+  clearAllPosts(): any {
+    return actionCreator(ACTIVITY_ACTIONS.CLEAR_ALL_FETCHED_ARTWORKS);
   },
 
   setFilterSelection(filter: any): any {

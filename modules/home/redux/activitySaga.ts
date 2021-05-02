@@ -1,3 +1,4 @@
+import { baseUrl } from "./../../../common/api/constants";
 import axios from "axios";
 import { call, put, select, takeLatest, all } from "redux-saga/effects";
 import activityActions, { ACTIVITY_ACTIONS } from "./activityActions";
@@ -5,29 +6,36 @@ import activityActions, { ACTIVITY_ACTIONS } from "./activityActions";
 const createSingleArtworkPromise = (assetId: number) => {
   return call(
     axios.get,
-    `https://superrare.co/sr-json/v0/nfts/assets?asset_ids=${assetId}`
+    `${baseUrl}/sr-json/v0/nfts/assets?asset_ids=${assetId}`
   );
 };
 
 // Mock generator function
-function* fetchMockItems(): Generator {
+function* fetchActivityItems(action: any): Generator {
   try {
+    const fetchType = action.payload.type;
+
     // get last indexedItem
     const state: any = yield select();
-    const lastFetchedArtworkIndex = state.activity.lastFetchedArtworkIndex;
-    console.log(lastFetchedArtworkIndex);
+    let lastFetchedArtworkIndex = state.activity.lastFetchedArtworkIndex;
 
-    if (lastFetchedArtworkIndex !== 0) {
-      yield put(
-        activityActions.setLastFetchedArtworkId(lastFetchedArtworkIndex + 10)
-      );
+    yield put(
+      activityActions.setLastFetchedArtworkId(lastFetchedArtworkIndex + 10)
+    );
+
+    if (fetchType && fetchType === "initial") {
+      yield put(activityActions.setInitialLoading(true));
     }
 
-    // yield put(activityActions.setLoadingTrue());
+    if (fetchType === "refresh") {
+      lastFetchedArtworkIndex = 0;
+    }
+
+    yield put(activityActions.setLoadingTrue());
     // mock fetch api item
     const fetchedRawPosts: any = yield call(
       axios.get,
-      `https://superrare.co/sr-json/v0/nfts/events?limit=10&offset=${lastFetchedArtworkIndex}&categories=artwork&event_types=creation`
+      `${baseUrl}/sr-json/v0/nfts/events?limit=10&offset=${lastFetchedArtworkIndex}&categories=artwork&event_types=creation`
     );
 
     // return array
@@ -51,13 +59,21 @@ function* fetchMockItems(): Generator {
       }
     }
 
+    if (fetchType === "refresh") {
+      yield put(activityActions.clearAllPosts());
+    }
+
     yield put(activityActions.fetchActivitySuccess(postList));
-    // yield put(activityActions.setLoadingFalse());
+    yield put(activityActions.setLoadingFalse());
+
+    if (fetchType && fetchType === "initial") {
+      yield put(activityActions.setInitialLoading(false));
+    }
   } catch (e) {}
 }
 
 function* activitySaga(): Generator {
-  yield takeLatest(ACTIVITY_ACTIONS.FETCH_ACTIVITY_START, fetchMockItems); // get all items
+  yield takeLatest(ACTIVITY_ACTIONS.FETCH_ACTIVITY_START, fetchActivityItems); // get all items
 }
 
 export default activitySaga;

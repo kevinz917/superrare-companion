@@ -1,9 +1,9 @@
 import { ACTIVITY_FILTER_OPTIONS } from "./../constants/activityFilterOptions";
 import { ACTIVITY_ACTIONS } from "./activityActions";
-import { combineReducers } from "redux";
 import { produce } from "immer";
 
 interface activityState {
+  initialLoading: boolean;
   loading: boolean;
   posts: any;
   filter: any;
@@ -13,6 +13,7 @@ interface activityState {
 }
 
 const activityState: activityState = {
+  initialLoading: true,
   loading: false,
   posts: [],
   filter: ACTIVITY_FILTER_OPTIONS.ALL_AUCTIONS,
@@ -24,14 +25,22 @@ const activityState: activityState = {
 // test reducer for demo purposes
 export const activityReducer = produce((state, action) => {
   switch (action.type) {
+    case ACTIVITY_ACTIONS.SET_INITIAL_LOADING:
+      state.initialLoading = action.payload.status;
+      break;
     case ACTIVITY_ACTIONS.SET_LOADING_TRUE:
       state.loading = true;
       break;
     case ACTIVITY_ACTIONS.SET_LOADING_FALSE:
       state.loading = false;
       break;
+
+    // Main fetch event
     case ACTIVITY_ACTIONS.FETCH_ACTIVITY_SUCCESS:
       state.posts = state.posts.concat(action.payload.item);
+      break;
+    case ACTIVITY_ACTIONS.CLEAR_ALL_FETCHED_ARTWORKS:
+      state.posts = [];
       break;
 
     case ACTIVITY_ACTIONS.SET_FILER_SELECTION:

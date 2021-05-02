@@ -14,6 +14,7 @@ import {
 } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import FadeInView from "../../../common/components/FadeInView/FadeInView";
+import { colors } from "../../../common/style/colors";
 
 interface postOwnProps {
   post: any; // TODO: DEFINE API TYPE SPECS
@@ -80,10 +81,18 @@ const Post = (props: postAllProps) => {
           </View>
         </View>
       </TouchableOpacity>
-      <Image
+      {/* <Image
         style={postStyle.mainImageContainer}
         source={{
           uri: post.artwork.image,
+        }}
+      /> */}
+      <View
+        style={{
+          width: "100%",
+          height: 400,
+          backgroundColor: colors.grey200,
+          marginBottom: 20,
         }}
       />
       <View style={postStyle.postBottomContainer}>

@@ -4,6 +4,7 @@ export const activityStyles = StyleSheet.create({
   pageContainer: {
     width: "100%",
     backgroundColor: "white",
+    position: "relative",
   },
   title: {
     fontSize: 20,

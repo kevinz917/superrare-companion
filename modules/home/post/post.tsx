@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { View } from "../../../components/Themed";
-import { Text, Image, Animated } from "react-native";
+import { Text, Image, Animated, Dimensions } from "react-native";
 import { typography } from "../../../common/style/typography";
 import { postStyle } from "./postStyle";
 
@@ -29,6 +29,8 @@ const FadeInView = (props: any) => {
 
 const Post = (props: any) => {
   const { post } = props;
+
+  const win = Dimensions.get("window");
 
   return (
     <FadeInView>

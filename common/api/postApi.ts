@@ -26,7 +26,6 @@ export const fetchPosts = async (number: number, offset: number) => {
       postList.push(returnObj);
     }
 
-    console.log(postList);
     return postList;
   } catch (error) {}
 };

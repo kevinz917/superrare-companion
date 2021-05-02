@@ -15,6 +15,7 @@ import { typography } from "../../common/style/typography";
 import activityActions from "./redux/activityActions";
 import { activityStyles, loadingStyle } from "./ActivityStyle";
 import { SUPERRARE_MAIN_LOGO } from "../../common/constants/brand";
+import FloatingFilterContainer from "./FloatingFilterContainer.tsx/FloatingFilterContainer";
 
 interface mapDispatchProps {
   fetchMockItem: () => void;
@@ -39,8 +40,7 @@ const mapStateToProps = (state: any): mapStateToProps => {
 type activityAllProps = mapDispatchProps & mapStateToProps;
 
 const TabOneScreen = (props: activityAllProps) => {
-  const { loading, posts } = props;
-  const { fetchMockItem } = props;
+  const { loading, posts, fetchMockItem } = props;
 
   useEffect(() => {
     const onMount = async () => {
@@ -67,6 +67,7 @@ const TabOneScreen = (props: activityAllProps) => {
               ))}
             </ScrollView>
           </SafeAreaView>
+          <FloatingFilterContainer />
         </View>
       </RenderIf>
       <RenderIf value={loading}>

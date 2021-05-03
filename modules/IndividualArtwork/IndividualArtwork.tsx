@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Text,
-  Image,
-  Linking,
-  SafeAreaView,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { Text, Image, SafeAreaView, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from "react-redux";
 import Spacer from "../../common/components/Spacer/Space";

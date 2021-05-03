@@ -16,6 +16,7 @@ export type BottomTabParamList = {
 export type TabOneParamList = {
   Activity: undefined;
   IndividualArtwork: undefined;
+  ContractAddress: undefined;
 };
 
 export type TabTwoParamList = {

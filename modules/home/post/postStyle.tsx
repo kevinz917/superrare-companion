@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors } from "../../../common/style/colors";
 
 export const postStyle = StyleSheet.create({
   postOverallContainer: {
@@ -17,6 +18,7 @@ export const postStyle = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
+    backgroundColor: colors.grey000,
   },
   profilePictureContainer: {
     width: 30,
@@ -28,7 +30,7 @@ export const postStyle = StyleSheet.create({
   },
   mainImageContainer: {
     width: "100%",
-    height: 500,
+    height: 400,
     marginBottom: 20,
     resizeMode: "cover",
   },

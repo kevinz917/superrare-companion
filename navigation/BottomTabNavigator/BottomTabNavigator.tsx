@@ -19,6 +19,7 @@ import {
 import Activity from "../../modules/home/Activity";
 import IndividualArtwork from "../../modules/IndividualArtwork/IndividualArtwork";
 import { colors } from "../../common/style/colors";
+import ContractDetails from "../../modules/home/ContractDetails/ContractDetails";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -73,7 +74,12 @@ function ActivityNavigator() {
         component={Activity}
         options={{
           headerTitle: "Activity",
-          headerStyle: headerStyles.defaultHeader,
+          headerStyle: [
+            headerStyles.defaultHeader,
+            {
+              backgroundColor: "transparent",
+            },
+          ],
           headerTintColor: colors.grey600,
           headerTitleStyle: {
             fontSize: 16,
@@ -84,6 +90,15 @@ function ActivityNavigator() {
       <ActivityStackNavigator.Screen
         name="IndividualArtwork"
         component={IndividualArtwork}
+        options={{
+          headerTitle: "Artwork",
+          headerStyle: headerStyles.defaultHeader,
+          headerTintColor: colors.grey600,
+        }}
+      />
+      <ActivityStackNavigator.Screen
+        name="ContractAddress"
+        component={ContractDetails}
         options={{
           headerTitle: "Artwork",
           headerStyle: headerStyles.defaultHeader,

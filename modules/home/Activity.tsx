@@ -46,7 +46,7 @@ type activityAllProps = mapDispatchProps & mapStateToProps;
 
 const ActivityFeed = (props: activityAllProps) => {
   const { loading, initialLoading, posts, fetchActivityItems } = props;
-  const flatListRef: any = useRef();
+  const flatListRef: any = useRef<HTMLDivElement>();
 
   useEffect(() => {
     const onMount = async () => {

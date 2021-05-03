@@ -8,6 +8,10 @@ export const postStyle = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
   },
+  headerTextContainerRow: {
+    display: "flex",
+    flexDirection: "row",
+  },
   postHeaderContainer: {
     display: "flex",
     flexDirection: "row",

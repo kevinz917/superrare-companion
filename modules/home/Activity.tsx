@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  Text,
-  SafeAreaView,
-  ScrollView,
-  Image,
-  RefreshControl,
-  FlatList,
-} from "react-native";
+import { Text, Image, FlatList } from "react-native";
 import { Fragment } from "react";
 import { connect } from "react-redux";
 import { View } from "../../components/Themed";

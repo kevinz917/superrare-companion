@@ -18,6 +18,7 @@ interface floatingFiltersOwnProps {
 
 interface floatingFilterDispatchProps {
   setFilterType: (filterType: any) => void;
+  fetchActivityItems: (type: string) => void;
 }
 
 interface floatingFilterMapStateToPropsProps {
@@ -27,6 +28,7 @@ interface floatingFilterMapStateToPropsProps {
 const floatingFiltersMapDispatchToProps: floatingFilterDispatchProps = {
   setFilterType: (filterType: any) =>
     activityActions.setFilterSelection(filterType),
+  fetchActivityItems: (type: string) => activityActions.fetchActivity(type),
 };
 
 const floatingFiltersMapStateToProps = (state: any) => {
@@ -40,11 +42,17 @@ type floatingFilterAllProps = floatingFiltersOwnProps &
   floatingFilterMapStateToPropsProps;
 
 const FloatingFilters = (props: floatingFilterAllProps) => {
-  const { onFilterClose, setFilterType, selectedFilter } = props;
+  const {
+    onFilterClose,
+    setFilterType,
+    selectedFilter,
+    fetchActivityItems,
+  } = props;
 
   const onFilterOptionClick = (filterType: any) => {
     onFilterClose(true);
     setFilterType(filterType);
+    fetchActivityItems("refresh");
   };
 
   const activityfilterOptionsKeys = Object.keys(ACTIVITY_FILTER_OPTIONS);
@@ -57,12 +65,13 @@ const FloatingFilters = (props: floatingFilterAllProps) => {
         <Fragment key={`${key} ${idx}`}>
           <TouchableOpacity
             style={FloatingFiltersStyle.filterRowButton}
-            onPress={() => onFilterOptionClick(key)}
+            onPress={() => onFilterOptionClick(ACTIVITY_FILTER_OPTIONS[key])}
           >
             <Text
               style={[
                 typography.body1,
-                selectedFilter === key && typography.medium,
+                selectedFilter === ACTIVITY_FILTER_OPTIONS[key] &&
+                  typography.medium,
               ]}
             >
               {ACTIVITY_FILTER_OPTIONS[key]}

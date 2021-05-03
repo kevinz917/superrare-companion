@@ -8,19 +8,17 @@ import { StarInactive } from "../../../common/icons/Star/StarInactive";
 import { connect } from "react-redux";
 import RenderIf from "../../../common/components/RenderIf/RenderIf";
 import activityActions from "../redux/activityActions";
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import FadeInView from "../../../common/components/FadeInView/FadeInView";
 import { colors } from "../../../common/style/colors";
+import PostHeader from "../PostHeader/PostHeader";
 
 interface postOwnProps {
   post: any; // TODO: DEFINE API TYPE SPECS
 }
 
 interface postMapStateToPropsProps {
+  loading: boolean;
   likedPosts: string[];
 }
 
@@ -40,6 +38,7 @@ const postMapDispatchToProps: postMapDispatchToPropsProps = {
 
 const postMapStateToProps = (state: any) => {
   return {
+    loading: state.activity.loading,
     likedPosts: state.activity.likedArtworks,
   };
 };
@@ -50,6 +49,7 @@ type postAllProps = postMapStateToPropsProps &
 
 const Post = (props: postAllProps) => {
   const {
+    loading,
     post,
     likedPosts,
     likeArtwork,
@@ -58,29 +58,9 @@ const Post = (props: postAllProps) => {
   } = props;
   const navigation = useNavigation();
 
-  const navigateToArtwork = () => {
-    selectArtworkId(post.artwork.id);
-    navigation.navigate("IndividualArtwork");
-  };
-
   return (
     <View style={postStyle.postOverallContainer}>
-      <TouchableOpacity onPress={() => navigateToArtwork()}>
-        <View style={postStyle.postHeaderContainer}>
-          <Image
-            style={postStyle.profilePictureContainer}
-            source={{
-              uri: post.event.creation.firstOwner.user.avatar,
-            }}
-          />
-          <View style={postStyle.headerTextContainer}>
-            <Text style={typography.body1}>{post.artwork.name}</Text>
-            <Text
-              style={typography.caption}
-            >{`By: ${post.artwork.creator.user.username}`}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
+      <PostHeader post={post} />
       {/* <Image
         style={postStyle.mainImageContainer}
         source={{

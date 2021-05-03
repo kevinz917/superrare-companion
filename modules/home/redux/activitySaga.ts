@@ -1,3 +1,4 @@
+import { ACTIVITY_FILTER_OPTIONS_TO_PARAM_MAPPING } from "./../constants/activityFilterOptions";
 import { baseUrl } from "./../../../common/api/constants";
 import axios from "axios";
 import { call, put, select, takeLatest, all } from "redux-saga/effects";
@@ -18,6 +19,7 @@ function* fetchActivityItems(action: any): Generator {
     // get last indexedItem
     const state: any = yield select();
     let lastFetchedArtworkIndex = state.activity.lastFetchedArtworkIndex;
+    const filterType = state.activity.filter;
 
     yield put(
       activityActions.setLastFetchedArtworkId(lastFetchedArtworkIndex + 10)
@@ -35,7 +37,7 @@ function* fetchActivityItems(action: any): Generator {
     // mock fetch api item
     const fetchedRawPosts: any = yield call(
       axios.get,
-      `${baseUrl}/sr-json/v0/nfts/events?limit=10&offset=${lastFetchedArtworkIndex}&categories=artwork&event_types=creation`
+      `${baseUrl}/sr-json/v0/nfts/events?limit=10&offset=${lastFetchedArtworkIndex}&categories=artwork&event_types=${ACTIVITY_FILTER_OPTIONS_TO_PARAM_MAPPING[filterType]}`
     );
 
     // return array

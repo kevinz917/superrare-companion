@@ -16,7 +16,7 @@ const activityState: activityState = {
   initialLoading: true,
   loading: false,
   posts: [],
-  filter: ACTIVITY_FILTER_OPTIONS.ALL_AUCTIONS,
+  filter: ACTIVITY_FILTER_OPTIONS.BIDS,
   likedArtworks: [],
   selectedArtworkId: -1,
   lastFetchedArtworkIndex: 0,

@@ -13,6 +13,7 @@ import RenderIf from "../../../common/components/RenderIf/RenderIf";
 import { Fragment } from "react";
 
 interface floatingFiltersOwnProps {
+  toTop: any;
   onFilterClose: (active: boolean) => void;
 }
 
@@ -43,6 +44,7 @@ type floatingFilterAllProps = floatingFiltersOwnProps &
 
 const FloatingFilters = (props: floatingFilterAllProps) => {
   const {
+    toTop,
     onFilterClose,
     setFilterType,
     selectedFilter,
@@ -50,9 +52,10 @@ const FloatingFilters = (props: floatingFilterAllProps) => {
   } = props;
 
   const onFilterOptionClick = (filterType: any) => {
+    toTop();
     onFilterClose(true);
     setFilterType(filterType);
-    fetchActivityItems("refresh");
+    fetchActivityItems("transition");
   };
 
   const activityfilterOptionsKeys = Object.keys(ACTIVITY_FILTER_OPTIONS);

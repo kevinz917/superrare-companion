@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { Image, View, TouchableOpacity, Text } from "react-native";
 import { connect } from "react-redux";
+import LoadingPlaceholderBar from "../../../common/components/LoadingPlaceholderBar/LoadingPlaceholderBar";
 import { typography } from "../../../common/style/typography";
 import { ACTIVITY_FILTER_OPTIONS } from "../constants/activityFilterOptions";
 import { postStyle } from "../post/postStyle";
@@ -12,7 +13,7 @@ interface postHeaderOwnProps {
 }
 
 interface postHeaderMapStateToPropsProps {
-  loading: boolean;
+  transitionLoading: boolean;
   selectedFilter: string;
 }
 
@@ -24,7 +25,7 @@ const postHeaderMapStateToProps = (
   state: any
 ): postHeaderMapStateToPropsProps => {
   return {
-    loading: state.activity.loading,
+    transitionLoading: state.activity.transitionLoading,
     selectedFilter: state.activity.filter,
   };
 };
@@ -46,10 +47,8 @@ const PostHeaderProfilePicture = (props: any) => {
     if (selectedFilter === ACTIVITY_FILTER_OPTIONS.CREATIONS) {
       return post.artwork.creator.user.avatar;
     } else if (selectedFilter === ACTIVITY_FILTER_OPTIONS.BIDS) {
-      return (
-        post.event.bid.bidder.user.avatar ||
-        "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-      );
+      if (!post.event.bid) return "";
+      return post.event.bid.bidder.user.avatar || "";
     }
   };
 
@@ -70,7 +69,7 @@ const ProfileHeaderText = (props: any) => {
   const { post, selectedFilter, loading } = props;
 
   if (loading) {
-    return <View />;
+    return <LoadingPlaceholderBar width={100} height={20} />;
   }
 
   if (selectedFilter === ACTIVITY_FILTER_OPTIONS.CREATIONS) {
@@ -88,11 +87,13 @@ const ProfileHeaderText = (props: any) => {
     return (
       <View style={postStyle.headerTextContainerRow}>
         <Text style={[typography.body1, typography.medium]}>
-          {post.event.bid.bidder.user.username}
+          {post.event.bid ? post.event.bid.bidder.user.username : ""}
         </Text>
         <Text style={typography.body1}> made a bid of </Text>
         <Text style={[typography.body1, typography.medium]}>
-          {`${post.event.bid.amount / 1000000000000000000}Ξ`}
+          {post.event.bid
+            ? `${post.event.bid.amount / 1000000000000000000}Ξ`
+            : ""}
         </Text>
       </View>
     );
@@ -102,7 +103,7 @@ const ProfileHeaderText = (props: any) => {
 };
 
 const PostHeader = (props: postHeaderAllProps) => {
-  const { post, selectArtworkId, selectedFilter, loading } = props;
+  const { post, selectArtworkId, selectedFilter, transitionLoading } = props;
   const navigation = useNavigation();
 
   const navigateToArtwork = () => {
@@ -116,12 +117,12 @@ const PostHeader = (props: postHeaderAllProps) => {
         <PostHeaderProfilePicture
           post={post}
           selectedFilter={selectedFilter}
-          loading={loading}
+          loading={transitionLoading}
         />
         <ProfileHeaderText
           post={post}
           selectedFilter={selectedFilter}
-          loading={loading}
+          loading={transitionLoading}
         />
       </View>
     </TouchableOpacity>

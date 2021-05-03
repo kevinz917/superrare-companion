@@ -2,6 +2,7 @@ import actionCreator from "../../../redux/actionCreator";
 
 export const ACTIVITY_ACTIONS = {
   SET_INITIAL_LOADING: "SET_INITIAL_LOADING",
+  SET_TRANSITION_LOADING: "SET_TRANSITION_LOADING",
 
   SET_LOADING_TRUE: "SET_LOADING_TRUE",
   SET_LOADING_FALSE: "SET_LOADING_FALSE",
@@ -25,6 +26,9 @@ export const ACTIVITY_ACTIONS = {
 export default {
   setInitialLoading(status: boolean): any {
     return actionCreator(ACTIVITY_ACTIONS.SET_INITIAL_LOADING, { status });
+  },
+  setTransitionLoading(status: boolean): any {
+    return actionCreator(ACTIVITY_ACTIONS.SET_TRANSITION_LOADING, { status });
   },
 
   setLoadingTrue(): any {

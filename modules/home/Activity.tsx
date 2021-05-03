@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Text, Image, FlatList } from "react-native";
 import { Fragment } from "react";
 import { connect } from "react-redux";
@@ -46,6 +46,7 @@ type activityAllProps = mapDispatchProps & mapStateToProps;
 
 const ActivityFeed = (props: activityAllProps) => {
   const { loading, initialLoading, posts, fetchActivityItems } = props;
+  const flatListRef: any = useRef();
 
   useEffect(() => {
     const onMount = async () => {
@@ -54,11 +55,16 @@ const ActivityFeed = (props: activityAllProps) => {
     onMount();
   }, []);
 
+  const toTop = () => {
+    flatListRef.current.scrollToOffset({ animated: false, offset: 0 });
+  };
+
   return (
     <Fragment>
       <RenderIf value={!initialLoading}>
         <View style={activityStyles.pageContainer}>
           <FlatList
+            ref={flatListRef}
             data={posts}
             renderItem={({ item }) => <Post post={item} />}
             initialNumToRender={2}
@@ -68,7 +74,7 @@ const ActivityFeed = (props: activityAllProps) => {
             refreshing={loading}
             onRefresh={() => fetchActivityItems("refresh")}
           />
-          <FloatingFilterContainer />
+          <FloatingFilterContainer toTop={toTop} />
         </View>
       </RenderIf>
 

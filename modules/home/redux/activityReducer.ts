@@ -5,6 +5,7 @@ import { produce } from "immer";
 interface activityState {
   initialLoading: boolean;
   loading: boolean;
+  transitionLoading: boolean;
   posts: any;
   filter: any;
   likedArtworks: string[];
@@ -15,6 +16,7 @@ interface activityState {
 const activityState: activityState = {
   initialLoading: true,
   loading: false,
+  transitionLoading: false,
   posts: [],
   filter: ACTIVITY_FILTER_OPTIONS.BIDS,
   likedArtworks: [],
@@ -28,6 +30,10 @@ export const activityReducer = produce((state, action) => {
     case ACTIVITY_ACTIONS.SET_INITIAL_LOADING:
       state.initialLoading = action.payload.status;
       break;
+    case ACTIVITY_ACTIONS.SET_TRANSITION_LOADING:
+      state.transitionLoading = action.payload.status;
+      break;
+
     case ACTIVITY_ACTIONS.SET_LOADING_TRUE:
       state.loading = true;
       break;

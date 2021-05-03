@@ -28,12 +28,20 @@ function* fetchActivityItems(action: any): Generator {
     if (fetchType && fetchType === "initial") {
       yield put(activityActions.setInitialLoading(true));
     }
+    if (fetchType && fetchType === "transition") {
+      lastFetchedArtworkIndex = 0;
+      yield put(activityActions.setLastFetchedArtworkId(10));
+      yield put(activityActions.setTransitionLoading(true));
+    }
 
     if (fetchType === "refresh") {
       lastFetchedArtworkIndex = 0;
+      yield put(activityActions.setLastFetchedArtworkId(10));
     }
 
-    yield put(activityActions.setLoadingTrue());
+    if (fetchType && fetchType !== "transition") {
+      yield put(activityActions.setLoadingTrue());
+    }
     // mock fetch api item
     const fetchedRawPosts: any = yield call(
       axios.get,
@@ -61,7 +69,7 @@ function* fetchActivityItems(action: any): Generator {
       }
     }
 
-    if (fetchType === "refresh") {
+    if (fetchType === "refresh" || fetchType == "transition") {
       yield put(activityActions.clearAllPosts());
     }
 
@@ -70,6 +78,9 @@ function* fetchActivityItems(action: any): Generator {
 
     if (fetchType && fetchType === "initial") {
       yield put(activityActions.setInitialLoading(false));
+    }
+    if (fetchType && fetchType === "transition") {
+      yield put(activityActions.setTransitionLoading(false));
     }
   } catch (e) {}
 }
